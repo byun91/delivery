@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="byun91.delivery">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <application
         android:name=".DeliveryApp"
         android:allowBackup="true"
