@@ -3,6 +3,7 @@ package byun91.deliveryapp.screen.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import byun91.deliveryapp.model.Model
 import kotlinx.coroutines.Job
 
 abstract class BaseActivity<VM : BaseViewModel, VB : ViewBinding> : AppCompatActivity() {
