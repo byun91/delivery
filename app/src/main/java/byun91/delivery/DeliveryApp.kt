@@ -3,7 +3,10 @@ package byun91.delivery
 import android.app.Application
 import android.content.Context
 import byun91.delivery.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class DeliveryApp :Application() {
 
@@ -11,7 +14,10 @@ class DeliveryApp :Application() {
         super.onCreate()
         appContext = this
 
-        startKoin { modules(appModule) }
+        startKoin {
+            androidLogger(Level.ERROR)
+            androidContext(this@DeliveryApp)
+            modules(appModule) }
     }
 
     override fun onTerminate() { // 앱 프로세스 종료 시

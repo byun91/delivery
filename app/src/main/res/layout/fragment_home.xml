@@ -33,7 +33,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <TableLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -43,8 +43,7 @@
         app:tabGravity="fill"
         app:tabIndicatorFullWidth="false"
         app:tabMaxWidth="0dp"
-        app:tabMode="auto"/>
-
+        app:tabMode="auto" />
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_width="0dp"
