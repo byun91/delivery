@@ -5,7 +5,6 @@ import byun91.delivery.screen.base.BaseFragment
 import byun91.delivery.screen.main.home.restaurant.RestaurantCategory
 import byun91.delivery.screen.main.home.restaurant.RestaurantListFragment
 import byun91.delivery.widget.adapter.RestaurantListFragmentPagerAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +24,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         initViewPager()
     }
 
-
     private fun initViewPager() = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
         if (::viewPagerAdapter.isInitialized.not()) { // :: 더블콜론 -> 변수에 대한 속성을 참조
@@ -40,10 +38,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         TabLayoutMediator(tabLayout, viewPager){ tab, pos ->
             tab.setText(restaurantCategories[pos].categoryNameId)
         }.attach()
-
     }
-
-
 
     companion object{
         fun newInstance() = HomeFragment()

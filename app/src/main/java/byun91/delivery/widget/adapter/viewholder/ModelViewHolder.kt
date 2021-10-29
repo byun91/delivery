@@ -19,7 +19,7 @@ abstract class ModelViewHolder<M : Model>(
         reset()
     }
 
-    abstract fun bindViews(model: Model, adapterListener: AdapterListener)
+    abstract fun bindViews(model: M, adapterListener: AdapterListener)
 
 
 }
