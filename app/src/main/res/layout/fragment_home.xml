@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="현재 위치"
+            tools:text="현재위치"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />

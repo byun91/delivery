@@ -1,3 +1,13 @@
 package byun91.delivery.screen.main.home
 
-sealed class HomeState
+import androidx.annotation.StringRes
+
+sealed class HomeState {
+    object Uninitialized: HomeState()
+
+    object Loading: HomeState()
+
+    object Success: HomeState()
+
+    object Error : HomeState()
+}

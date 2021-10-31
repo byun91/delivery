@@ -18,6 +18,10 @@ class RestaurantListViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch {
         val restaurantList = restaurantRepository.getList(restaurantCategory)
+       /* why entity to model ?
+        1) 나중에 api 수정이 있을 때 1단계 의존성 걸리는 부분만 수정하면 됨
+        2) 보통 원시 api는 어떻게 사용할지 고려하고 만든게 아니라서 편하게 사용하기 위해 가공
+        */
         restaurantListLiveData.value = restaurantList.map {
             RestaurantModel(
                 id = it.id,
