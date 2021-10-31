@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import byun91.delivery.R
+import byun91.delivery.data.entity.LocationLatLngEntity
 import byun91.delivery.databinding.FragmentHomeBinding
 import byun91.delivery.screen.base.BaseFragment
 import byun91.delivery.screen.main.home.restaurant.RestaurantCategory
@@ -129,7 +130,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     inner class MyLocationListener : LocationListener {
         override fun onLocationChanged(location: Location) {
-            binding.locationTitleTextView.text ="${location.latitude}, ${location.longitude}"
+            viewModel.loadReverseGeoInformation(
+                LocationLatLngEntity(
+                    location.latitude,
+                    location.longitude
+                )
+            )
+            removeLocationListener()
         }
     }
 }

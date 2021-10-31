@@ -1,6 +1,8 @@
 package byun91.delivery.di
 
+import byun91.delivery.data.repository.DefaultMapRepository
 import byun91.delivery.data.repository.DefaultRestaurantRepository
+import byun91.delivery.data.repository.MapRepository
 import byun91.delivery.data.repository.RestaurantRepository
 import byun91.delivery.screen.main.home.HomeViewModel
 import byun91.delivery.screen.main.home.restaurant.RestaurantCategory
@@ -15,19 +17,20 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    viewModel{HomeViewModel()}
+    viewModel{HomeViewModel(get())}
     viewModel{ MyViewModel() }
 
     viewModel { (restaurantCategory: RestaurantCategory) ->
         RestaurantListViewModel(restaurantCategory, restaurantRepository = get())
     }
 
+    single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get()) }
 
     single { provideGsonConverterFactory() }
     single { buildOkHttpClient() }
-    single { provideRetrofit(get(), get()) }
-
+    single { provideMapRetrofit(get(), get()) }
+    single { provideMapApiService(get()) }
 
     single<ResourceProvider> {DefaultResourceProvider(androidApplication())}
     single { Dispatchers.IO }
