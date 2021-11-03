@@ -8,6 +8,8 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import byun91.delivery.R
 import byun91.delivery.data.entity.LocationLatLngEntity
 import byun91.delivery.databinding.FragmentHomeBinding
@@ -52,8 +54,21 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner){
         when (it) {
-            HomeState.Uninitialized -> {
+            is HomeState.Uninitialized -> {
                 getMyLocation()
+            }
+            is HomeState.Loading -> {
+                binding.locationLoading.isVisible = true
+                binding.locationTitleTextView.text = getString(R.string.loading)
+            }
+            is HomeState.Success -> {
+                binding.locationLoading.isGone = true
+                binding.locationTitleTextView.text = it.mapSearchInfo.fullAddress
+                initViewPager(it.mapSearchInfo.locationLatLng)
+            }
+
+            is HomeState.Error -> {
+                Toast.makeText(requireContext(),it.messageId,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -69,12 +84,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
     }
 
-    override fun initViews() {
-        super.initViews()
-        initViewPager()
-    }
-
-    private fun initViewPager() = with(binding) {
+    private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
         if (::viewPagerAdapter.isInitialized.not()) { // :: 더블콜론 -> 변수에 대한 속성을 참조
             val restaurantListFragmentList = restaurantCategories.map{
