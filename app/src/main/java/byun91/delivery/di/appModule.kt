@@ -8,6 +8,7 @@ import byun91.delivery.screen.main.home.HomeViewModel
 import byun91.delivery.screen.main.home.restaurant.RestaurantCategory
 import byun91.delivery.screen.main.home.restaurant.RestaurantListViewModel
 import byun91.delivery.screen.main.my.MyViewModel
+import byun91.delivery.screen.mylocation.MyLocationViewModel
 import byun91.delivery.util.provider.DefaultResourceProvider
 import byun91.delivery.util.provider.ResourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ val appModule = module {
 
     viewModel{HomeViewModel(get())}
     viewModel{ MyViewModel() }
+    viewModel { MyLocationViewModel() }
 
     viewModel { (restaurantCategory: RestaurantCategory) ->
         RestaurantListViewModel(restaurantCategory, restaurantRepository = get())

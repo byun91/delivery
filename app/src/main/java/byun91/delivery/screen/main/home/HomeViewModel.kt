@@ -13,6 +13,11 @@ class HomeViewModel(
    private val mapRepository: MapRepository
 ) : BaseViewModel() {
 
+
+    companion object {
+        const val MY_LOCATION_KEY = "MyLocation"
+    }
+
     fun loadReverseGeoInformation(locationLatLngEntity: LocationLatLngEntity)
     = viewModelScope.launch {
         homeStateLiveData.value = HomeState.Loading
@@ -33,4 +38,13 @@ class HomeViewModel(
     }
 
     val homeStateLiveData = MutableLiveData<HomeState>(HomeState.Uninitialized)
+
+    fun getMapSearchInfo() : MapSearchInfoEntity? {
+        when (val data = homeStateLiveData.value) {
+            is HomeState.Success -> {
+                return data.mapSearchInfo
+            }
+        }
+        return null
+    }
 }

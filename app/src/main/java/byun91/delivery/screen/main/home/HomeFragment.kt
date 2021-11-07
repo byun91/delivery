@@ -2,6 +2,7 @@ package byun91.delivery.screen.main.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -12,10 +13,12 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import byun91.delivery.R
 import byun91.delivery.data.entity.LocationLatLngEntity
+import byun91.delivery.data.entity.MapSearchInfoEntity
 import byun91.delivery.databinding.FragmentHomeBinding
 import byun91.delivery.screen.base.BaseFragment
 import byun91.delivery.screen.main.home.restaurant.RestaurantCategory
 import byun91.delivery.screen.main.home.restaurant.RestaurantListFragment
+import byun91.delivery.screen.mylocation.MyLocationActivity
 import byun91.delivery.widget.adapter.RestaurantListFragmentPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +34,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     = FragmentHomeBinding.inflate(layoutInflater)
 
     private lateinit var myLocationListener: LocationListener
+    private val changeLocationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getParcelableExtra<MapSearchInfoEntity>(HomeViewModel.MY_LOCATION_KEY)
+                    ?.let { myLocationInfo ->
+                        viewModel.loadReverseGeoInformation(myLocationInfo.locationLatLng)
+                }
+            }
+        }
+
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
@@ -81,6 +94,18 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         val isGpsEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if (isGpsEnable) {
             locationPermissionLauncher.launch(locationPermissions)
+        }
+    }
+
+    override fun initViews()  = with(binding){
+        locationTitleTextView.setOnClickListener {
+            viewModel.getMapSearchInfo()?.let { mapInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(
+                        requireContext(), mapInfo
+                    )
+                )
+            }
         }
     }
 
