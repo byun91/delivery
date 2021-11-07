@@ -20,6 +20,10 @@ class MyLocationActivity :
         )
     }
 
+    override fun initViews() {
+        super.initViews()
+    }
+
     override fun observeData() {
     }
 

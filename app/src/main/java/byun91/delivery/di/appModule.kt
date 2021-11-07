@@ -1,5 +1,6 @@
 package byun91.delivery.di
 
+import byun91.delivery.data.entity.MapSearchInfoEntity
 import byun91.delivery.data.repository.DefaultMapRepository
 import byun91.delivery.data.repository.DefaultRestaurantRepository
 import byun91.delivery.data.repository.MapRepository
@@ -20,7 +21,8 @@ val appModule = module {
 
     viewModel{HomeViewModel(get())}
     viewModel{ MyViewModel() }
-    viewModel { MyLocationViewModel() }
+    viewModel { (mapSearchInfoEntity : MapSearchInfoEntity) ->
+        MyLocationViewModel(mapSearchInfoEntity) }
 
     viewModel { (restaurantCategory: RestaurantCategory) ->
         RestaurantListViewModel(restaurantCategory, restaurantRepository = get())
